@@ -1,1 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Cookie Drop!</title>
+
+  <!-- Import Fredoka One font from Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+
+  <!-- Import the webpage's stylesheet -->
+  <link rel="stylesheet" href="style.css"/>
+
+  <style>
+    /* Optional: ensure the canvas wrapper is sized properly */
+    .canvas-wrapper {
+      position: relative;
+      width: 350px;
+      height: 400px;
+    }
+    .canvas-wrapper img,
+    .canvas-wrapper canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 350px;
+      height: 400px;
+      user-select: none;
+      pointer-events: none;
+    }
+    #gameCanvas {
+      pointer-events: auto;
+    }
+
+    /* Table fixed to bottom viewport */
+    #tableLayer {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100vw;
+      max-width: 1900px; /* Adjust max width as needed */
+      height: 300px;
+      pointer-events: none;
+      z-index: 1; /* behind canvas and other layers */
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Help Overlay -->
+  <div id="helpOverlay">
+    <div class="helpContent">
+      <h2 class="fredoka">How to Play</h2>
+      <p>Drop the cookies in the jar!</p>
+
+      <p> Use the mouse to control where you drop the cookie.  Click to drop!</p>
+      <img src="./images/help01.png" class="helpImage" alt="Drop Cookies" />
+
+      <p> Two of the same cookie can be merged into the next size up.  Keep merging to get bigger cookies!</p>
+      <img src="./images/wheel_of_evolution.png" class="helpImage" alt="Wheel of Evolution"/>
+      
+      <p> When the cookies begin to overflow out of the jar, a red warning rectangle will flash just before "Game Over."</p>
+      <img src="./images/help02.png" class="helpImage" alt="Game Over Example"/>
+     
+      <button id="closeHelpBtn" class="fredoka">Let's play!</button>
+    </div>
+  </div>
+
+  <!-- Logo -->
+  <div id="page">
+    <h1>
+      <img class="logo" alt="logo" id="logo" src="./images/LogoCookie.png" width="350" height="50"/>
+    </h1>
+  </div>
+
+  <!-- Main Game Container -->
+  <div class="game-container">
+    <div class="canvas-wrapper">
+      <canvas id="gameCanvas" width="350" height="400" style="z-index: 2;"></canvas>
+      <img src="./images/jar_front.png" id="canvasOverlay" alt="JarFront" style="z-index: 3;"/>
+      <img src="./images/jar_shine.png" id="shineLayer" alt="shine" style="z-index: 4;"/>
+      <button id="restartBtn" id="restartBtn" style="display: none; margin-top: 100px;" class="fredoka">Restart</button>
+
+      <div id="helpBubble">
+        <img src="./images/help_bubble.png" alt="help"/>
+      </div>
+
+      <img src="./images/hs-box.png" id="highScoreLayer" alt="highscore" style="z-index: 6;"/>
+      <img src="./images/score_cookie_1.png" id="score_bg" alt="score_bg" style="z-index: 3;"/>
+
+      <!-- High Score Board -->
+      <div id="scoreBoard">
+        <h2 class="fredoka">High Scores</h2>
+        <ul id="highScoresList"></ul>
+      </div>
+
+      <img src="./images/jar_lid.png" id="lidLayer" alt="lid" style="z-index: 8;"/>
+
+          <!-- Game UI -->
+    <div class="game-ui">
+      <div>Score: <span id="score">0</span></div>
+
+    </div>
+  </div>
+
+    </div>
+
+  <!-- Table fixed at bottom -->
+  <img src="./images/table.png" id="tableLayer" alt="table"/>
+
+  <!-- Import the JavaScript -->
+  <script src="./script.js" defer></script>
+</body>
+</html>
+
 
