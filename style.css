@@ -1,1 +1,285 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;  /* 🔒 Lock the scroll */
+  height: 100%;
+}
 
+body {
+  background: url('./images/bg_checks.png') no-repeat center center fixed;
+  background-size: cover;
+  font-family: sans-serif;
+  color: #000000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#logo {
+  display: block;
+  margin: 20px auto;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Canvas wrapper ensures overlay aligns correctly */
+.canvas-wrapper {
+  position: relative;
+  width: 350px;
+  height: 400px;
+  margin-top: 50px;
+  z-index: 5; /* Make sure canvas is above table */
+}
+
+/* Fredoka font class */
+.fredoka {
+  font-family: 'Fredoka One', sans-serif;
+}
+
+#gameCanvas {
+  border: none;
+  background-color: transparent;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+#tableLayer {
+  position: fixed;
+  bottom: 20;             /* lock to bottom of viewport */
+  left: 50%;             /* center horizontally */
+  transform: translateX(-50%);
+  width: 100vw;          /* full viewport width */
+  max-width: 1900px;      /* max width for large screens */
+  height: 300px;         /* fixed height for table */
+  object-fit: cover;     /* crop if needed, no shrink */
+  pointer-events: none;
+  z-index: 1;            /* behind game canvas */
+  user-select: none;
+  overflow: hidden;
+  /* overlap canvas by 20px */
+  margin-bottom: -20px;  
+}
+
+#canvasOverlay {
+  position: absolute;
+  top: 41px;
+  left: 0;
+  width: 100%;
+  height: 95%;
+  pointer-events: none;
+  z-index: 3;
+}
+
+#shineLayer {
+  position: absolute;
+  top: 100px;
+  left: 25px;
+  width: 25%;
+  height: 65%;
+  pointer-events: none;
+  z-index: 4;
+}
+
+#helpBubble {
+  position: absolute;
+  top: 0;
+  left: -450px; /* Adjust this to your desired location */
+  width: 50%;
+  height: 45%;
+  z-index: 6;
+  cursor: pointer;
+}
+
+#helpBubble img {
+  width: 100%;
+  height: 100%;
+  pointer-events: auto; /* Allow clicks */
+}
+
+#helpOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: none; /* Hidden by default */
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.helpContent {
+  background-color: #fad9eb;
+  padding: 20px 30px;
+  border-radius: 10px;
+  max-width: 400px;
+  max-height: 90vh;
+  overflow-y: auto;
+  text-align: center;
+  color: #9b7cb7;
+}
+
+.helpContent h2 {
+  font-family: 'Fredoka One', sans-serif;
+}
+
+#closeHelpBtn {
+  margin-top: 20px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: #9b7cb7;
+  color: white;
+  cursor: pointer;
+}
+
+.helpContent img.helpImage {
+  display: block;
+  width: 200px;
+  height: auto;
+  margin: 10px auto;
+  border-radius: 8px;
+}
+
+
+#highScoreLayer {
+  position: absolute;
+  top: 100px;
+  left: 450px;
+  width: 75%;
+  height: 75%;
+  pointer-events: none;
+  z-index: 6;
+}
+
+#lidLayer {
+  position: absolute;
+  top: 120px;
+  left: -170px;
+  width: 50%;
+  height: 75%;
+  pointer-events: none;
+  z-index: 7;
+}
+
+/* Repositioned Score UI above the scoreboard */
+.game-ui {
+  position: absolute;
+  right: -275px;
+  top: -30px;  /* adjust upward above the scoreboard */
+  color: #000;
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  z-index: 1001; /* above scoreBoard */
+}
+
+/* Score Board styles */
+#scoreBoard {
+  position: absolute;
+  top: 100px;
+  right: -310px;
+  background-color: transparent;
+  padding: 10px;
+  border: 2px transparent;
+  border-radius: 8px;
+  font-family: 'Fredoka One', sans-serif;
+  color: #fff;
+  z-index: 1000; /* make sure it's above the game canvas */
+}
+
+#highScoresList {
+  list-style-type: none;
+  padding: 0;
+  margin: 8;
+}
+
+#highScoresList li {
+  margin: 50px -30px;
+  font-weight: bold;
+}
+
+/* Score Background Image */
+#score_bg {
+  position: absolute;
+  top: -120px;
+  left: 480px;
+  width: 55%;
+  height: 50%;
+  pointer-events: none;
+  z-index: 7;
+}
+
+/* New container wrapping score_bg and score text */
+#scoreContainer {
+  position: absolute;
+  top: -120px;
+  left: 480px;
+  width: 120px;   /* match actual size of score_bg image */
+  height: 120px;
+  pointer-events: none;
+  z-index: 8;
+}
+
+/* Make the score_bg fill the container */
+#scoreContainer #score_bg {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Score text centered over score_bg */
+#scoreText {
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 26px;
+  color: white;
+  user-select: none;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+#restartBtn {
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 18px;
+  padding: 12px 24px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #9b7cb7;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 1000;
+  display: none; /* shown only when game is over */
+}
+
+#restartBtn:hover {
+  background-color: #555;
+}
+
+#gameOverText {
+  font-family: 'Fredoka One', sans-serif;
+  font-size: 32px;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 10px 20px;
+  border-radius: 10px;
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  z-index: 1001;
+}
